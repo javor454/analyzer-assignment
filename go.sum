@@ -1,0 +1,9 @@
+github.com/AlekSi/pointer v1.0.0/go.mod h1:1kjywbfcPFCmncIxtk6fIEub6LKrfMz3gc5QKVOSOA8=
+github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
+github.com/etherlabsio/go-m3u8 v1.0.0 h1:d3HJVr8wlbvJO20ksKEyvDYf4bcM7v8YV3W83fHswL0=
+github.com/etherlabsio/go-m3u8 v1.0.0/go.mod h1:RzDiaXgaYnIEzZUmVUD/xMRFR7bY7U5JaCnp8XYLmXU=
+github.com/pmezard/go-difflib v1.0.0/go.mod h1:iKH77koFhYxTK1pcRnkKkqfTogsbg7gZNVY4sRDYZ/4=
+github.com/stretchr/objx v0.1.0/go.mod h1:HFkY916IF+rwdDfMAkV7OtwuqBVzrE8GR6GFx+wExME=
+github.com/stretchr/testify v1.3.0/go.mod h1:M5WIy9Dh21IEIfnGCwXGc5bZfKNJtfHm1UVUgZn+9EI=
+github.com/zencoder/go-dash v0.0.0-20201006100653-2f93b14912b2 h1:0iAY2pL6yYhNYpdc1DbFq0p7ocyu5MlgKmkealhz3nk=
+github.com/zencoder/go-dash v0.0.0-20201006100653-2f93b14912b2/go.mod h1:c8Gxxfmh0jmZ6G+ISlpa315WBVkzd8mEhu6gN9mn5Qg=
