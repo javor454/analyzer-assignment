@@ -16,6 +16,7 @@ import (
 	"log"
 	"os"
 	"os/signal"
+	"strings"
 	"syscall"
 	"time"
 )
@@ -64,6 +65,7 @@ func main() {
 		os.Exit(1)
 	}
 
+	var playlist string
 	validUrl, err := parseUrl(*playlistURL)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error: Failed to validate url: %s\n", err)
@@ -71,15 +73,38 @@ func main() {
 		os.Exit(1)
 	}
 
-	log.Println("Fetching playlist...")
-	playlistBytes, err := fetchPlaylist(ctx, validUrl)
-	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error: Failed to fetch playlist: %s\n", err)
+	if validUrl.Scheme == "file" {
+		*playlistURL = strings.TrimPrefix(*playlistURL, "file://")
+		playlistBytes, err := os.ReadFile(*playlistURL)
+		if err != nil {
+			fmt.Fprintf(os.Stderr, "Error: Failed to read file: %s\n", err)
+			os.Exit(1)
+		}
+		playlist = string(playlistBytes)
+	} else if validUrl.Scheme == "http" || validUrl.Scheme == "https" {
+		var err error
+
+		validUrl, err := parseUrl(*playlistURL)
+		if err != nil {
+			fmt.Fprintf(os.Stderr, "Error: Failed to validate url: %s\n", err)
+			flag.Usage()
+			os.Exit(1)
+		}
+
+		log.Println("Fetching playlist...")
+		playlist, err = fetchPlaylist(ctx, validUrl)
+		if err != nil {
+			fmt.Fprintf(os.Stderr, "Error: Failed to fetch playlist: %s\n", err)
+			os.Exit(1)
+		}
+	} else {
+		fmt.Fprintf(os.Stderr, "Error: Invalid url scheme: %s\n", validUrl.Scheme)
+		flag.Usage()
 		os.Exit(1)
 	}
 
 	log.Println("Parsing playlist...")
-	manifestSummary, err := parsePlaylist(playlistBytes)
+	manifestSummary, err := parsePlaylist(playlist)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error: Failed to parse playlist: %s\n", err)
 		os.Exit(1)

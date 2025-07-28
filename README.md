@@ -1,7 +1,8 @@
 # Simple Manifest Analyzer – Homework - variant A.1
 ## How to run
 - `make build` - build binary
-- `make run` - build binary + run with parameter from assignment
+- `make run` - build binary + parse manifest from online source
+- `make run-file` - build binary + parse manifest from file
 - `make test` - run tests
 - `make test-coverage` - run tests with coverage + open coverage explorer
 

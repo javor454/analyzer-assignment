@@ -148,3 +148,52 @@ func extractLanguage(lang *string) string {
 
 	return *lang
 }
+
+// audioChannelsFromHex extracts the number of audio channels from a hex string
+// additional requirement requested on the live interview
+func audioChannelsFromHex(hexStr string) (int, error) {
+	channelMap := []struct {
+		name   string
+		isPair bool
+	}{
+		{"L", false},           // 0 (most-significant bit)
+		{"C", false},           // 1
+		{"R", false},           // 2
+		{"Ls", false},          // 3
+		{"Rs", false},          // 4
+		{"Lc/Rc pair", true},   // 5
+		{"Lrs/Rrs pair", true}, // 6
+		{"Cs", false},          // 7
+		{"Ts", false},          // 8
+		{"Lsd/Rsd pair", true}, // 9
+		{"Lw/Rw pair", true},   // 10
+		{"Lvh/Rvh pair", true}, // 11
+		{"Cvh", false},         // 12
+		{"Lts/Rts pair", true}, // 13
+		{"LFE2", false},        // 14
+		{"LFE", false},         // 15
+	}
+
+	// Remove "0x" or "0X" prefix if present
+	hexStr = strings.TrimPrefix(hexStr, "0x")
+	hexStr = strings.TrimPrefix(hexStr, "0X")
+
+	val, err := strconv.ParseUint(hexStr, 16, 16)
+	if err != nil {
+		return 0, fmt.Errorf("invalid hex string: %w", err)
+	}
+
+	numChannels := 0
+	for i := range channelMap {
+		// Check if the bit is set (bit 0 is most significant = order matters)
+		bitIdx := 15 - i
+		if (val & (1 << bitIdx)) != 0 {
+			if channelMap[i].isPair {
+				numChannels += 2
+			} else {
+				numChannels += 1
+			}
+		}
+	}
+	return numChannels, nil
+}

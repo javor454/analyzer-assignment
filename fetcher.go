@@ -65,7 +65,7 @@ func parseUrl(rawUrl string) (*url.URL, error) {
 		return nil, fmt.Errorf("failed to parse url: %w", err)
 	}
 
-	if validUrl.Scheme != "http" && validUrl.Scheme != "https" {
+	if validUrl.Scheme != "http" && validUrl.Scheme != "https" && validUrl.Scheme != "file" {
 		return nil, fmt.Errorf("invalid url scheme: %s", validUrl.Scheme)
 	}
 

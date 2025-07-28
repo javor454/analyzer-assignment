@@ -3,6 +3,9 @@
 run: build
 	./target/main -p https://demo.unified-streaming.com/k8s/features/stable/video/tears-of-steel/tears-of-steel.ism/.mpd
 
+run-file: build
+	./target/main -p file://./mpd
+
 build:
 	go build -o target/main .
 
